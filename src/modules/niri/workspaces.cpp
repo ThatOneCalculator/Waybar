@@ -67,6 +67,11 @@ void Workspaces::doUpdate() {
     else
       style_context->remove_class("active");
 
+    if (ws["idx"].asUInt() == (workspaces.size() - 1))
+      style_context->add_class("last");
+    else
+      style_context->remove_class("last");
+
     if (ws["output"]) {
       if (ws["output"].asString() == bar_.output->name)
         style_context->add_class("current_output");
