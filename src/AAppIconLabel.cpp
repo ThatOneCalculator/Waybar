@@ -63,6 +63,10 @@ std::optional<std::string> getDesktopFilePath(const std::string& app_identifier,
     return {};
   }
 
+  if (std::filesystem::exists(app_identifier)) {
+    return app_identifier;
+  }
+
   const auto data_dirs = Glib::get_system_data_dirs();
   for (const auto& data_dir : data_dirs) {
     const auto data_app_dir = data_dir + "/applications/";
