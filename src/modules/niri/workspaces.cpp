@@ -67,7 +67,7 @@ void Workspaces::doUpdate() {
     else
       style_context->remove_class("active");
 
-    if (ws["idx"].asUInt() == workspaces.size())
+    if (ws["idx"].asUInt() == workspaces.size() && workspaces.size() > 1)
       style_context->add_class("last");
     else
       style_context->remove_class("last");
