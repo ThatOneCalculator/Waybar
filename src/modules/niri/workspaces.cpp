@@ -78,7 +78,7 @@ void Workspaces::doUpdate() {
         style_context->remove_class("first");
         style_context->add_class("solo");
       }
-      else if (ws["idx"].asUInt() == 0) {
+      else if (ws["idx"].asUInt() == 1) {
         style_context->remove_class("last");
         style_context->add_class("first");
         style_context->remove_class("solo");
