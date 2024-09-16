@@ -62,11 +62,6 @@ std::optional<std::string> getDesktopFilePath(const std::string& app_identifier,
   if (app_identifier.empty()) {
     return {};
   }
-
-  if (std::filesystem::exists(app_identifier)) {
-    return app_identifier;
-  }
-
   const auto data_dirs = Glib::get_system_data_dirs();
   for (const auto& data_dir : data_dirs) {
     const auto data_app_dir = data_dir + "/applications/";
@@ -158,6 +153,17 @@ void AAppIconLabel::updateAppIcon() {
     update_app_icon_ = false;
     if (app_icon_name_.empty()) {
       image_.set_visible(false);
+    }
+    else if (app_icon_name_.front() == '/') {
+      spdlog::info("app_icon_name: {}", app_icon_name_);
+      auto pixbuf = Gdk::Pixbuf::create_from_file(app_icon_name_);
+      int scaled_icon_size = app_icon_size_ * image_.get_scale_factor();
+      pixbuf = Gdk::Pixbuf::create_from_file(app_icon_name_, scaled_icon_size, scaled_icon_size);
+
+      auto surface = Gdk::Cairo::create_surface_from_pixbuf(pixbuf, image_.get_scale_factor(),
+                                                            image_.get_window());
+      image_.set(surface);
+      image_.set_visible(true);
     } else {
       image_.set_from_icon_name(app_icon_name_, Gtk::ICON_SIZE_INVALID);
       image_.set_visible(true);
